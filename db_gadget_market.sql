@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 18, 2024 at 03:30 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Dec 19, 2024 at 12:13 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -75,6 +75,69 @@ CREATE TABLE `customer` (
 CREATE TABLE `favorites` (
   `favorite_id` bigint(20) NOT NULL,
   `user_id` int(11) NOT NULL,
+  `product_id` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order`
+--
+
+CREATE TABLE `order` (
+  `order_id` bigint(20) NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `order_date` datetime NOT NULL,
+  `payment_due` datetime NOT NULL,
+  `payment_token` varchar(255) NOT NULL,
+  `payment_url` varchar(255) NOT NULL,
+  `payment_status` varchar(255) NOT NULL,
+  `status` varchar(255) NOT NULL,
+  `base_total_price` decimal(16,0) NOT NULL,
+  `tax_amount` decimal(16,0) NOT NULL,
+  `tax_percent` decimal(16,0) NOT NULL,
+  `discount_amount` decimal(16,0) NOT NULL,
+  `discount_percent` decimal(16,0) NOT NULL,
+  `shipping_cost` decimal(16,0) NOT NULL,
+  `grand_total` decimal(16,0) NOT NULL,
+  `note` text NOT NULL,
+  `customer_first_name` varchar(255) NOT NULL,
+  `customer_last_name` varchar(255) NOT NULL,
+  `customer_address1` varchar(255) NOT NULL,
+  `customer_address2` varchar(255) NOT NULL,
+  `customer_phone` varchar(255) NOT NULL,
+  `customer_email` varchar(255) NOT NULL,
+  `customer_city_id` varchar(255) NOT NULL,
+  `customer_province_id` varchar(255) NOT NULL,
+  `customer_postcode` int(11) NOT NULL,
+  `shipping_courier` varchar(255) NOT NULL,
+  `shipping_service_name` varchar(255) NOT NULL,
+  `approved_by` bigint(20) NOT NULL,
+  `approved_at` datetime NOT NULL,
+  `cancelled_at` datetime NOT NULL,
+  `cancelled_by` bigint(20) NOT NULL,
+  `cancellation_note` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_items`
+--
+
+CREATE TABLE `order_items` (
+  `order_items_id` bigint(20) NOT NULL,
+  `qty` int(11) NOT NULL,
+  `base_price` int(11) NOT NULL,
+  `base_total` int(11) NOT NULL,
+  `tax_amount` decimal(16,0) NOT NULL,
+  `tax_percent` decimal(16,0) NOT NULL,
+  `discount_amount` decimal(16,0) NOT NULL,
+  `discount_percent` decimal(16,0) NOT NULL,
+  `sub_total` decimal(16,0) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `weight` varchar(255) NOT NULL,
+  `order_id` bigint(20) NOT NULL,
   `product_id` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -167,6 +230,21 @@ ALTER TABLE `favorites`
   ADD KEY `product_id` (`product_id`);
 
 --
+-- Indexes for table `order`
+--
+ALTER TABLE `order`
+  ADD PRIMARY KEY (`order_id`),
+  ADD KEY `user_id` (`user_id`,`order_date`,`approved_by`,`cancelled_by`);
+
+--
+-- Indexes for table `order_items`
+--
+ALTER TABLE `order_items`
+  ADD PRIMARY KEY (`order_items_id`),
+  ADD KEY `order_id` (`order_id`),
+  ADD KEY `name` (`name`);
+
+--
 -- Indexes for table `product`
 --
 ALTER TABLE `product`
@@ -210,6 +288,18 @@ ALTER TABLE `city`
 --
 ALTER TABLE `favorites`
   MODIFY `favorite_id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `order`
+--
+ALTER TABLE `order`
+  MODIFY `order_id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `order_items`
+--
+ALTER TABLE `order_items`
+  MODIFY `order_items_id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `product`

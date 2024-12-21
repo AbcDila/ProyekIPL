@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 20, 2024 at 09:32 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Dec 21, 2024 at 05:09 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -71,13 +71,13 @@ CREATE TABLE `order` (
   `payment_url` varchar(255) NOT NULL,
   `payment_status` varchar(255) NOT NULL,
   `status` varchar(255) NOT NULL,
-  `base_total_price` decimal(16,0) NOT NULL,
-  `tax_amount` decimal(16,0) NOT NULL,
-  `tax_percent` decimal(16,0) NOT NULL,
-  `discount_amount` decimal(16,0) NOT NULL,
-  `discount_percent` decimal(16,0) NOT NULL,
-  `shipping_cost` decimal(16,0) NOT NULL,
-  `grand_total` decimal(16,0) NOT NULL,
+  `base_total_price` decimal(16,2) NOT NULL,
+  `tax_amount` decimal(16,2) NOT NULL,
+  `tax_percent` decimal(16,2) NOT NULL,
+  `discount_amount` decimal(16,2) NOT NULL,
+  `discount_percent` decimal(16,2) NOT NULL,
+  `shipping_cost` decimal(16,2) NOT NULL,
+  `grand_total` decimal(16,2) NOT NULL,
   `note` text NOT NULL,
   `customer_first_name` varchar(255) NOT NULL,
   `customer_last_name` varchar(255) NOT NULL,
@@ -95,6 +95,26 @@ CREATE TABLE `order` (
   `cancelled_at` datetime NOT NULL,
   `cancelled_by` int(1) NOT NULL,
   `cancellation_note` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_items`
+--
+
+CREATE TABLE `order_items` (
+  `order_id` int(1) NOT NULL,
+  `product_id` int(1) NOT NULL,
+  `quantity` tinyint(4) DEFAULT NULL,
+  `weight` smallint(6) DEFAULT NULL,
+  `discount_percent` tinyint(4) DEFAULT NULL,
+  `discount_amount` decimal(16,2) DEFAULT NULL,
+  `base_price` decimal(16,2) DEFAULT NULL,
+  `base_total` decimal(16,2) DEFAULT NULL,
+  `tax_percent` tinyint(4) DEFAULT NULL,
+  `tax_amount` decimal(16,2) DEFAULT NULL,
+  `subtotal` decimal(16,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -125,6 +145,20 @@ CREATE TABLE `product` (
 CREATE TABLE `provinces` (
   `province_id` int(1) NOT NULL,
   `province_name` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `review`
+--
+
+CREATE TABLE `review` (
+  `order_id` int(1) NOT NULL,
+  `user_id` int(1) NOT NULL,
+  `product_id` int(1) NOT NULL,
+  `rating` tinyint(4) NOT NULL,
+  `content` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -180,6 +214,13 @@ ALTER TABLE `order`
   ADD KEY `user_id` (`user_id`);
 
 --
+-- Indexes for table `order_items`
+--
+ALTER TABLE `order_items`
+  ADD KEY `order_id` (`order_id`,`product_id`),
+  ADD KEY `product_id` (`product_id`);
+
+--
 -- Indexes for table `product`
 --
 ALTER TABLE `product`
@@ -191,6 +232,14 @@ ALTER TABLE `product`
 --
 ALTER TABLE `provinces`
   ADD PRIMARY KEY (`province_id`);
+
+--
+-- Indexes for table `review`
+--
+ALTER TABLE `review`
+  ADD KEY `order_id` (`order_id`,`user_id`,`product_id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `product_id` (`product_id`);
 
 --
 -- Indexes for table `users`
@@ -265,10 +314,25 @@ ALTER TABLE `order`
   ADD CONSTRAINT `order_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `order_items`
+--
+ALTER TABLE `order_items`
+  ADD CONSTRAINT `order_items_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `order` (`order_id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `order_items_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`) ON DELETE NO ACTION ON UPDATE CASCADE;
+
+--
 -- Constraints for table `product`
 --
 ALTER TABLE `product`
   ADD CONSTRAINT `product_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`category_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `review`
+--
+ALTER TABLE `review`
+  ADD CONSTRAINT `review_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `order` (`order_id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `review_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `review_ibfk_3` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `users`

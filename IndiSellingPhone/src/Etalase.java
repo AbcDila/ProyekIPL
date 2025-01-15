@@ -17,10 +17,7 @@ public class Etalase extends JFrame {
         cart keranjang = new cart();
         this.setLayout(new BorderLayout());
 
-        Label coba = new Label("Hayolooo");
-        Label coba1 = new Label("Hayolooo");
-        coba1.setSize(300,30);
-        coba1.setBackground(Color.CYAN);
+        Label coba = new Label("List Produk");
         coba.setAlignment(Label.CENTER);
         JPanel panel = new JPanel();
 

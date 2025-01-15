@@ -6,11 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Checkout extends JFrame {
-    Checkout(int i) throws SQLException {
+    Checkout(int pk) throws SQLException {
         koneksiDb con = new koneksiDb();
         ResultSet dProv = con.dataDariDB("select * from provinces");
         ResultSet dKota = con.dataDariDB("select * from city");
-        ResultSet data = con.dataDariDB("select * from product where product_id = "+i);
+        ResultSet data = con.dataDariDB("select * from product where product_id = "+pk);
         //con.insertData("insert into orders");
         JPanel kiri = new JPanel(new GridLayout(13,1));
         JPanel kanan = new JPanel(new GridLayout(13,1));
@@ -78,12 +78,15 @@ public class Checkout extends JFrame {
         kiri.add(prov);
         kiri.add(kotaPos);
         kiri.setBackground(Color.white);
+        shipCost.addItem("15000");
+        shipCost.addItem("20000");
         while (data.next()){
             produk.setText(data.getString("name"));
             subtotal.setText("Rp."+data.getInt("price"));
             int t = data.getInt("price")*2/100;
             tax1.setText("Rp."+t);
             int ot;
+            System.out.println(shipCost.getSelectedIndex());
             if (shipCost.getSelectedIndex()==0){
                 ot = data.getInt("price")+t+15000;
                 total.setText("Rp."+ot);
@@ -96,8 +99,6 @@ public class Checkout extends JFrame {
         produkD.add(subtotal);
         taxD.add(tax);
         taxD.add(tax1);
-        shipCost.addItem("15000");
-        shipCost.addItem("20000");
         shippingD.add(shipping);
         shippingD.add(shipCost);
         totalD.add(orderTotal);
@@ -127,7 +128,7 @@ public class Checkout extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(ck, "Pesanan Berhasil Dibuat");
                 try {
-                    new DetailProduct();
+                    new DetailProduct(pk);
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }

@@ -7,8 +7,7 @@ import java.sql.SQLException;
 
 public class DetailProduct extends JFrame {
     int pk;
-    public DetailProduct() throws SQLException {
-        pk =1;
+    public DetailProduct(int pk) throws SQLException {
         koneksiDb con = new koneksiDb();
         ResultSet data = con.dataDariDB("select * from product where product_id = "+pk);
         JPanel pNav = new JPanel(new FlowLayout(FlowLayout.LEFT, 10,10));
@@ -87,6 +86,6 @@ public class DetailProduct extends JFrame {
         });
     }
     public static void main(String[] args) throws SQLException {
-        new DetailProduct();
+        new DetailProduct(1);
     }
 }

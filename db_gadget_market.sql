@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 21, 2024 at 05:09 PM
+-- Generation Time: Jan 18, 2025 at 10:59 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -31,6 +31,15 @@ CREATE TABLE `categories` (
   `category_id` int(1) NOT NULL,
   `name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `categories`
+--
+
+INSERT INTO `categories` (`category_id`, `name`) VALUES
+(1, 'Flagship Phone'),
+(2, 'Mid Range Phone'),
+(3, 'Entry Level Phone');
 
 -- --------------------------------------------------------
 
@@ -120,6 +129,28 @@ CREATE TABLE `order_items` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `payments`
+--
+
+CREATE TABLE `payments` (
+  `Payment_id` int(1) NOT NULL,
+  `Order_id` int(1) NOT NULL,
+  `Number` varchar(255) NOT NULL,
+  `Amount` decimal(16,2) NOT NULL,
+  `Method` enum('Bayar di Tempat','Transfer Bank','Dompet Digital','') NOT NULL,
+  `Status` varchar(255) NOT NULL,
+  `Token` varchar(255) NOT NULL,
+  `Payloads` longtext NOT NULL,
+  `Payment_type` varchar(255) NOT NULL,
+  `Va_number` varchar(255) NOT NULL,
+  `Vendor_name` varchar(255) NOT NULL,
+  `Biller_code` varchar(255) NOT NULL,
+  `Bill_key` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `product`
 --
 
@@ -130,11 +161,20 @@ CREATE TABLE `product` (
   `description` text NOT NULL,
   `category_id` int(1) NOT NULL,
   `price` int(1) NOT NULL,
-  `details` longtext NOT NULL,
   `name` varchar(100) NOT NULL,
-  `status` tinyint(1) NOT NULL,
-  `review_able` tinyint(1) NOT NULL
+  `gambar` varchar(100) NOT NULL,
+  `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `product`
+--
+
+INSERT INTO `product` (`product_id`, `quantity`, `weight`, `description`, `category_id`, `price`, `name`, `gambar`, `status`) VALUES
+(2, 10, 231, 'Layar\r\nLayar Super Retina XDR\r\nLayar OLED menyeluruh 6,1 inci (diagonal)\r\nResolusi 2556 x 1179 piksel pada 460 ppi\r\n\r\nChip\r\nChip A18\r\n\r\nPerekaman Video\r\nPerekaman video Dolby Vision 4K pada kecepatan 24 fps, 25 fps, 30 fps, atau 60 fps', 1, 18000000, 'Iphone 16 Biru Laut Ultra', 'iphone 16.png', 1),
+(3, 10, 198, 'Prosesor\r\nSnapdragon® 8 Elite Mobile Platform\r\n\r\nTipe RAM\r\nLPDDR5X Ultra\r\n\r\nTipe ROM\r\nUFS 4.1*\r\n\r\nBaterai\r\nProduk ini mengadopsi desain seri sel ganda: Kapasitas tipikal: 3075mAh (7.68V), setara dengan 6150mAh (3.84V). Energi tipikal: 23,62Wh\r\n\r\nDaya Pengisian\r\n120 Watt', 1, 10000000, 'Iqoo 13 12+256 Legend', 'iqoo 13.png', 1),
+(4, 10, 209, 'Prosesor\r\nDimensity 9400\r\n\r\nSertifikasi IP\r\nIP68 dan IP69\r\n\r\nSistem Operasi\r\nFuntouch OS 15\r\n\r\nVersi Android\r\nAndroid 15\r\n\r\nBaterai\r\nProduk ini menggunakan desain sel tunggal:\r\nKapasitas tipikal: 5800 mAh (3,84V) Energi tipikal: 22,28 Wh\r\nKapasitas terukur: 5695 mAh (3,84V) Energi terukur: 21,87 Wh\r\n\r\nDaya Pengecasan\r\n90W\r\n\r\nKamera\r\nDepan 32 MP/Belakang 50 MP + 50 MP + 50 MP\r\n\r\nAperture\r\nDepan f/2.0 (32MP), Belakang f/1.57 (50MP) + f/2.0 (50MP) + f/2.57 (50MP)', 1, 13000000, 'Vivo X200 12/256 Hijau', 'vivo x200.png', 1),
+(5, 10, 215, 'Layar\r\nLTPO OLED, 68B colors, 120Hz, Dolby Vision, HDR10+, 1000 nits (typ), 3000 nits (peak)\r\n\r\nOS Android 14, upgradable to Android 15, up to 4 major Android upgrades, HyperOS 1.1\r\n\r\nChipset	Qualcomm SM8650-AB Snapdragon 8 Gen 3 (4 nm)\r\n\r\nKamera\r\n50 MP, f/1.6, 23mm (wide), 1/1.31\", 1.2µm, dual pixel PDAF, OIS\r\n50 MP, f/2.0, 75mm (telephoto), PDAF (10cm - ∞), OIS, 3.2x optical zoom\r\n50 MP, f/2.2, 14mm, 115˚ (ultrawide)', 1, 12000000, 'Xiaomi 14 12/256 Jade Green', 'xiaomi 14.png', 1);
 
 -- --------------------------------------------------------
 
@@ -146,6 +186,23 @@ CREATE TABLE `provinces` (
   `province_id` int(1) NOT NULL,
   `province_name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `provinces`
+--
+
+INSERT INTO `provinces` (`province_id`, `province_name`) VALUES
+(1, 'Jawa Barat'),
+(2, 'Jawa Tengah'),
+(3, 'Jawa Timur'),
+(4, 'Bali'),
+(5, 'DKI Jakarta'),
+(6, 'Banten'),
+(7, 'Sulawesi Selatan'),
+(8, 'Kalimatan Timur'),
+(9, 'Papua Barat'),
+(10, 'Aceh'),
+(11, 'Maluku');
 
 -- --------------------------------------------------------
 
@@ -221,6 +278,15 @@ ALTER TABLE `order_items`
   ADD KEY `product_id` (`product_id`);
 
 --
+-- Indexes for table `payments`
+--
+ALTER TABLE `payments`
+  ADD PRIMARY KEY (`Payment_id`),
+  ADD KEY `Foreign Key` (`Order_id`),
+  ADD KEY `Foreign Key1` (`Number`),
+  ADD KEY `Foreign Key3` (`Token`);
+
+--
 -- Indexes for table `product`
 --
 ALTER TABLE `product`
@@ -258,7 +324,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `category_id` int(1) NOT NULL AUTO_INCREMENT;
+  MODIFY `category_id` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `city`
@@ -282,13 +348,13 @@ ALTER TABLE `order`
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `product_id` int(1) NOT NULL AUTO_INCREMENT;
+  MODIFY `product_id` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `provinces`
 --
 ALTER TABLE `provinces`
-  MODIFY `province_id` int(1) NOT NULL AUTO_INCREMENT;
+  MODIFY `province_id` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Constraints for dumped tables

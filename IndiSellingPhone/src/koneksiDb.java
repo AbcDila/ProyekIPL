@@ -24,4 +24,14 @@ public class koneksiDb {
             throw new RuntimeException(e);
         }
     }
+    public void insertData(String query){
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/db_gadget_market", "root", "");
+            Statement statement = conn.createStatement();
+            statement.executeUpdate(query);
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

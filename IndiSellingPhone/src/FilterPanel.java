@@ -4,7 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class FilterPanel extends JPanel {
-    public FilterPanel(){
+    Etalase eta;
+    public FilterPanel(Etalase eta){
+        this.eta = eta;
         Filter aksi = new Filter();
         new JPanel();
         JPanel panel1 = new JPanel(new GridLayout(0,1,10,10));
@@ -21,19 +23,19 @@ public class FilterPanel extends JPanel {
         radio1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                aksi.kurangDari();
+                aksi.kurangDari(eta);
             }
         });
         radio2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                aksi.Antara();
+                aksi.Antara(eta);
             }
         });
         radio3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                aksi.lebihDari();
+                aksi.lebihDari(eta);
             }
         });
         G.add(radio1);

@@ -3,17 +3,36 @@ import java.awt.*;
 
 import static javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS;
 
-public class Etalase extends JFrame {
+public class Etalase extends JPanel {
     JScrollPane scrollPane;
+    Main frame;
 
     public void gantiList(String query){
-        new Etalase(query);
+        if (this != null){
+            //Etalase eta2 = new Etalase(query);
+            listProduk list = new listProduk(query);
+            /*scrollPane.removeAll();
+            scrollPane.add();
+            scrollPane.revalidate();
+            scrollPane.repaint();*/
+            this.remove(scrollPane);
+            scrollPane = new JScrollPane (list,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+            scrollPane.setMinimumSize(new Dimension(160, 200));
+            scrollPane.setViewportView(list);
+            scrollPane.setHorizontalScrollBar(null);
+            scrollPane.getVerticalScrollBar().setUnitIncrement(50);
+
+            this.add(scrollPane, BorderLayout.CENTER);
+            this.revalidate();
+            this.repaint();
+        }
     }
-    public Etalase(){
+    public Etalase(Main frame){
+        this.frame = frame;
         Filter filter = new Filter();
         new JFrame();
         this.setSize(1080,720);
-        this.setResizable(false);
+        //this.setResizable(false);
         cart keranjang = new cart();
         this.setLayout(new BorderLayout());
 
@@ -26,28 +45,28 @@ public class Etalase extends JFrame {
         panel.add(coba);
 
         this.add(panel, BorderLayout.PAGE_START);
-        this.add(new FilterPanel(), BorderLayout.LINE_START);
+        this.add(new FilterPanel(this), BorderLayout.LINE_START);
         this.add(new JPanel(), BorderLayout.LINE_END);
         listProduk A = new listProduk();
-        JScrollPane scrollPane = new JScrollPane (A);
+        scrollPane = new JScrollPane (A,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setMinimumSize(new Dimension(160, 200));
+        scrollPane.setViewportView(A);
+        scrollPane.setHorizontalScrollBar(null);
         scrollPane.getVerticalScrollBar().setUnitIncrement(50);
         System.out.println(A.getX());
         this.add(scrollPane, BorderLayout.CENTER);
         this.setVisible(true);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
     }
     public Etalase(String query){
         Filter filter = new Filter();
         new JFrame();
         this.setSize(1080,720);
-        this.setResizable(false);
+        //this.setResizable(false);
         cart keranjang = new cart();
         this.setLayout(new BorderLayout());
 
-        Label coba = new Label("Hayolooo");
-        Label coba1 = new Label("Hayolooo");
-        coba1.setSize(300,30);
-        coba1.setBackground(Color.CYAN);
+        Label coba = new Label("List Produk");
         coba.setAlignment(Label.CENTER);
         JPanel panel = new JPanel();
 
@@ -56,7 +75,7 @@ public class Etalase extends JFrame {
         panel.add(coba);
 
         this.add(panel, BorderLayout.PAGE_START);
-        this.add(new FilterPanel(), BorderLayout.LINE_START);
+        this.add(new FilterPanel(this), BorderLayout.LINE_START);
         this.add(new JPanel(), BorderLayout.LINE_END);
         listProduk A = new listProduk(query);
         JScrollPane scrollPane = new JScrollPane (A);
@@ -64,12 +83,12 @@ public class Etalase extends JFrame {
         System.out.println(A.getX());
         this.add(scrollPane, BorderLayout.CENTER);
         this.setVisible(true);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         new Etalase();
         System.out.println("Hello world!");
         koneksiDb conn = new koneksiDb();
-    }
+    }*/
 
 }

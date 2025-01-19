@@ -28,7 +28,7 @@ public class DetailProduct extends JFrame {
         JLabel deskripsi = new JLabel();
         JLabel kategori = new JLabel();
         while (data.next()){
-            icon = new ImageIcon("D:/ProyekIPL/IndiSellingPhone/src/images/"+data.getString("gambar"));
+            icon = new ImageIcon("src/gambar/"+data.getString("gambar"));
             nama.setText(data.getString("name"));
             harga.setText(data.getString("price"));
             deskripsi.setText(data.getString("description"));
@@ -85,7 +85,7 @@ public class DetailProduct extends JFrame {
             }
         });
     }
-    public static void main(String[] args) throws SQLException {
-        new DetailProduct(1);
-    }
+    /*public static void main(String[] args) throws SQLException {
+        new DetailProduct(5);
+    }*/
 }

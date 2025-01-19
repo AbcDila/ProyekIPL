@@ -12,7 +12,8 @@ public class card extends JPanel {
         new JPanel();
         this.setBackground(new Color(204,229,255));
         try {
-            BufferedImage pic = ImageIO.read(new File("A:\\Semester 5\\Tugas Besar\\Tubes IPL\\IndiSellingPhone\\src\\gambar\\"+setData.getString(8)));
+            BufferedImage pic = ImageIO.read(new File("src/gambar/"+setData.getString(8)));
+            int key = setData.getInt("product_id");
             JLabel picLabel = new JLabel(new ImageIcon(pic));
             JLabel labelHP = new JLabel(setData.getString(7));
             JLabel hargaHP = new JLabel("("+setData.getString(6)+")");
@@ -23,7 +24,12 @@ public class card extends JPanel {
             this.addMouseListener(new MouseListener() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    //GO TO NEW PANEL
+                    try {
+                        new DetailProduct(key);
+                    }catch (Exception a){
+                        System.out.println(a.getLocalizedMessage());
+                    }
+
                 }
 
                 @Override
@@ -54,7 +60,10 @@ public class card extends JPanel {
     }
     @Override
     public Dimension getPreferredSize(){
-        return new Dimension(100,70);
+        return new Dimension(250,275);
+    }
+    public  card(){
+        this.add(new JLabel());
     }
 
 }

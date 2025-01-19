@@ -23,9 +23,11 @@ public class MainFrame extends JFrame {
         );
 
         RegisterForm registerForm = new RegisterForm(
-                e -> cardLayout.show(getContentPane(), "HomePanel"), // Registrasi berhasil
-                e -> cardLayout.show(getContentPane(), "LoginPanel") // Kembali ke LoginPanel
+                this, // JFrame parentFrame
+                e -> cardLayout.show(getContentPane(), "LoginPanel"), // Pindah ke LoginPanel
+                e -> cardLayout.show(getContentPane(), "HomePanel")  // Pindah ke HomePanel
         );
+
 
         // Tambahkan panel ke CardLayout
         getContentPane().add(homePanel, "HomePanel");

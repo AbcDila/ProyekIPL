@@ -1,6 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class LoginForm extends JPanel {
     public LoginForm(ActionListener onLoginSuccess, ActionListener onBackToHome, ActionListener onNavigateToRegister) {
@@ -19,12 +23,12 @@ public class LoginForm extends JPanel {
             String email = emailField.getText();
             String password = new String(passwordField.getPassword());
 
-            // Simulasi autentikasi
-            if (email.equals("admin") && password.equals("123")) {
+            // Validasi login dari database
+            if (authenticateUser(email, password)) {
                 JOptionPane.showMessageDialog(this, "Login Berhasil!");
                 onLoginSuccess.actionPerformed(e); // Navigasi ke HomePanel
             } else {
-                JOptionPane.showMessageDialog(this, "Login Gagal!", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Email atau Password salah!", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
 
@@ -53,5 +57,25 @@ public class LoginForm extends JPanel {
         // Tambahkan komponen ke panel utama
         add(formPanel, BorderLayout.CENTER);
         add(registerLabel, BorderLayout.SOUTH); // Letakkan teks di bawah form
+    }
+
+    /**
+     * Metode untuk memvalidasi pengguna berdasarkan data di database.
+     */
+    private boolean authenticateUser(String email, String password) {
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            // Query untuk memeriksa email dan password
+            String query = "SELECT * FROM users WHERE email = ? AND password = MD5(?)";
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, email);
+            ps.setString(2, password);
+
+            ResultSet rs = ps.executeQuery();
+            return rs.next(); // Jika ada hasil, berarti login berhasil
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Terjadi Kesalahan: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
     }
 }

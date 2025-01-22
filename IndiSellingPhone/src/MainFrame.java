@@ -6,6 +6,7 @@ public class MainFrame extends JFrame {
         setTitle("Indi Cell");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1024, 768);
+        setResizable(false);
         setLayout(new CardLayout());
 
         CardLayout cardLayout = (CardLayout) getContentPane().getLayout();
@@ -14,7 +15,7 @@ public class MainFrame extends JFrame {
         HomePanel homePanel = new HomePanel(
                 e -> cardLayout.show(getContentPane(), "LoginPanel"), // Ke LoginPanel
                 e -> cardLayout.show(getContentPane(), "RegisterPanel"), // Ke RegisterPanel
-                e -> cardLayout.show(getContentPane(), "Coba") // Ke RegisterPanel
+                e -> cardLayout.show(getContentPane(), "PanelEtalase") // Ke RegisterPanel
         );
 
         LoginForm loginForm = new LoginForm(
@@ -28,14 +29,14 @@ public class MainFrame extends JFrame {
                 e -> cardLayout.show(getContentPane(), "LoginPanel"), // Pindah ke LoginPanel
                 e -> cardLayout.show(getContentPane(), "HomePanel")  // Pindah ke HomePanel
         );
-        PanelCoba coba = new PanelCoba();
+        Etalase panelEtalase = new Etalase(this);
 
 
         // Tambahkan panel ke CardLayout
         getContentPane().add(homePanel, "HomePanel");
         getContentPane().add(loginForm, "LoginPanel");
         getContentPane().add(registerForm, "RegisterPanel");
-        getContentPane().add(coba, "Coba");
+        getContentPane().add(panelEtalase, "PanelEtalase");
 
         // Tampilkan HomePanel saat aplikasi dijalankan
         cardLayout.show(getContentPane(), "HomePanel");

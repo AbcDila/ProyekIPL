@@ -5,7 +5,7 @@ import static javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS;
 
 public class Etalase extends JPanel {
     JScrollPane scrollPane;
-    Main frame;
+    MainFrame frame;
 
     public void gantiList(String query){
         if (this != null){
@@ -27,10 +27,9 @@ public class Etalase extends JPanel {
             this.repaint();
         }
     }
-    public Etalase(Main frame){
+    public Etalase(MainFrame frame){
         this.frame = frame;
         Filter filter = new Filter();
-        new JFrame();
         this.setSize(1080,720);
         //this.setResizable(false);
         cart keranjang = new cart();

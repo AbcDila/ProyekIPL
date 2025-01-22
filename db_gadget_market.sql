@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 19, 2025 at 08:26 AM
+-- Generation Time: Jan 22, 2025 at 11:33 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -52,6 +52,16 @@ CREATE TABLE `city` (
   `city_name` varchar(100) NOT NULL,
   `province_id` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `city`
+--
+
+INSERT INTO `city` (`city_id`, `city_name`, `province_id`) VALUES
+(1, 'Bandung', 1),
+(2, 'Tangerang', 6),
+(3, 'Jakarta', 5),
+(4, 'Semarang', 2);
 
 -- --------------------------------------------------------
 
@@ -211,36 +221,29 @@ INSERT INTO `provinces` (`province_id`, `province_name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `review`
---
-
-CREATE TABLE `review` (
-  `order_id` int(1) NOT NULL,
-  `user_id` int(1) NOT NULL,
-  `product_id` int(1) NOT NULL,
-  `rating` tinyint(4) NOT NULL,
-  `content` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
   `user_id` int(1) NOT NULL,
   `username` varchar(50) NOT NULL,
-  `first_name` varchar(50) NOT NULL,
-  `last_name` varchar(50) NOT NULL,
+  `first_name` varchar(50) DEFAULT NULL,
+  `last_name` varchar(50) DEFAULT NULL,
   `email` varchar(100) NOT NULL,
-  `address` varchar(255) NOT NULL,
-  `phone` varchar(15) NOT NULL,
-  `city_id` int(1) NOT NULL,
-  `postcode` int(1) NOT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `phone` varchar(15) DEFAULT NULL,
+  `city_id` int(1) NOT NULL DEFAULT 1,
+  `postcode` int(1) DEFAULT NULL,
   `password` varchar(50) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`user_id`, `username`, `first_name`, `last_name`, `email`, `address`, `phone`, `city_id`, `postcode`, `password`, `created_at`) VALUES
+(2, 'fabulous', 'Febri', 'Nusa', 'febrina', 'Jl.Lembah Tidar no.G10', '081122334455', 1, 40522, 'febriani', '2025-01-22 10:33:13');
 
 --
 -- Indexes for dumped tables
@@ -304,14 +307,6 @@ ALTER TABLE `provinces`
   ADD PRIMARY KEY (`province_id`);
 
 --
--- Indexes for table `review`
---
-ALTER TABLE `review`
-  ADD KEY `order_id` (`order_id`,`user_id`,`product_id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `product_id` (`product_id`);
-
---
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -334,7 +329,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `city`
 --
 ALTER TABLE `city`
-  MODIFY `city_id` int(1) NOT NULL AUTO_INCREMENT;
+  MODIFY `city_id` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `favorites`
@@ -359,6 +354,12 @@ ALTER TABLE `product`
 --
 ALTER TABLE `provinces`
   MODIFY `province_id` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `user_id` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
@@ -395,14 +396,6 @@ ALTER TABLE `order_items`
 --
 ALTER TABLE `product`
   ADD CONSTRAINT `product_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`category_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `review`
---
-ALTER TABLE `review`
-  ADD CONSTRAINT `review_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `order` (`order_id`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `review_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `review_ibfk_3` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `users`

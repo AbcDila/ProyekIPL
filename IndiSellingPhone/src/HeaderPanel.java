@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class HeaderPanel extends JPanel {
-    public HeaderPanel(ActionListener onLoginClick, ActionListener onRegisterClick) {
+    public HeaderPanel(ActionListener onLoginClick, ActionListener onRegisterClick, ActionListener produkListener) {
         setLayout(new FlowLayout(FlowLayout.LEFT, 20, 10));
         setBackground(new Color(173, 216, 230)); // Warna biru muda
 
@@ -24,6 +24,7 @@ public class HeaderPanel extends JPanel {
 
         loginButton.addActionListener(onLoginClick);
         registerButton.addActionListener(onRegisterClick);
+        produkButton.addActionListener(produkListener);
 
         add(homeButton);
         add(produkButton);

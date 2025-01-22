@@ -13,7 +13,8 @@ public class MainFrame extends JFrame {
         // Panel utama
         HomePanel homePanel = new HomePanel(
                 e -> cardLayout.show(getContentPane(), "LoginPanel"), // Ke LoginPanel
-                e -> cardLayout.show(getContentPane(), "RegisterPanel") // Ke RegisterPanel
+                e -> cardLayout.show(getContentPane(), "RegisterPanel"), // Ke RegisterPanel
+                e -> cardLayout.show(getContentPane(), "Coba") // Ke RegisterPanel
         );
 
         LoginForm loginForm = new LoginForm(
@@ -27,12 +28,14 @@ public class MainFrame extends JFrame {
                 e -> cardLayout.show(getContentPane(), "LoginPanel"), // Pindah ke LoginPanel
                 e -> cardLayout.show(getContentPane(), "HomePanel")  // Pindah ke HomePanel
         );
+        PanelCoba coba = new PanelCoba();
 
 
         // Tambahkan panel ke CardLayout
         getContentPane().add(homePanel, "HomePanel");
         getContentPane().add(loginForm, "LoginPanel");
         getContentPane().add(registerForm, "RegisterPanel");
+        getContentPane().add(coba, "Coba");
 
         // Tampilkan HomePanel saat aplikasi dijalankan
         cardLayout.show(getContentPane(), "HomePanel");

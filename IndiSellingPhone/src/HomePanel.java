@@ -3,11 +3,11 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class HomePanel extends JPanel {
-    public HomePanel(ActionListener onLoginClick, ActionListener onRegisterClick) {
+    public HomePanel(ActionListener onLoginClick, ActionListener onRegisterClick, ActionListener produkListener) {
         setLayout(new BorderLayout());
 
         // Tambahkan Header
-        HeaderPanel headerPanel = new HeaderPanel(onLoginClick, onRegisterClick);
+        HeaderPanel headerPanel = new HeaderPanel(onLoginClick, onRegisterClick, produkListener);
         add(headerPanel, BorderLayout.NORTH);
 
         // Tambahkan Sidebar
